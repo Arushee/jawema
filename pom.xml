@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -12,7 +11,31 @@
     <url>http://code.google.com/p/jawema/</url>
 
     <build>
-        <finalName>jawema</finalName>
+      <finalName>jawema</finalName>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.cargo</groupId>
+          <artifactId>cargo-maven2-plugin</artifactId>
+
+          <configuration>
+            <container>
+              <containerId>tomcat5x</containerId>
+              <zipUrlInstaller>
+                <url>http://ftp.uni-erlangen.de/pub/mirrors/apache/tomcat/tomcat-5/v5.5.20/bin/apache-tomcat-5.5.20.zip</url>
+                <installDir>tomcat</installDir>
+              </zipUrlInstaller>
+            </container>
+        </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+      </plugins>
     </build>
 
     <!-- Profile to run jetty, so the tomcat jars are included in the bundle. They are not included by default -->
@@ -111,6 +134,20 @@
             <artifactId>junit</artifactId>
             <version>4.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
