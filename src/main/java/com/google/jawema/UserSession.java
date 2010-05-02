@@ -12,6 +12,9 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Store;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 @ManagedBean
 @SessionScoped
@@ -95,14 +98,17 @@ public class UserSession implements Serializable {
         return folders;
     }
 
-    public void logout() {
-        try {
-            store.close();
-        } catch (MessagingException ex) {
-            Logger.getLogger(UserSession.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            store = null;
+    public String logout() {
+        if (store != null && store.isConnected()) {
+            try {
+                store.close();
+            } catch (MessagingException ex) {
+                Logger.getLogger(UserSession.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                store = null;
+            }
         }
+        return "index";
     }
 
     public DataModel<Message> getMessages() {
@@ -138,20 +144,28 @@ public class UserSession implements Serializable {
         this.password = password;
     }
 
-    public String getIncomingMailServer() {
+    private String getIncomingMailServer() {
+        if (incomingMailServer == null) {
+            try {
+                Context initial = new InitialContext();
+                incomingMailServer = (String) initial.lookup("java:comp/env/mail/incomingMailServer");
+            } catch (NamingException exception) {
+                exception.printStackTrace();
+            }
+        }
         return incomingMailServer;
     }
 
-    public void setIncomingMailServer(String incomingMailServer) {
-        this.incomingMailServer = incomingMailServer;
-    }
-
-    public String getOutgoingMailServer() {
+    private String getOutgoingMailServer() {
+        if (outgoingMailServer == null) {
+            try {
+                Context initial = new InitialContext();
+                outgoingMailServer = (String) initial.lookup("java:comp/env/mail/outgoingMailServer");
+            } catch (NamingException exception) {
+                exception.printStackTrace();
+            }
+        }
         return outgoingMailServer;
-    }
-
-    public void setOutgoingMailServer(String outgoingMailServer) {
-        this.outgoingMailServer = outgoingMailServer;
     }
 
     public int getInterval() {

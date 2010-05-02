@@ -24,8 +24,11 @@
                     </h:column>
                 </h:dataTable>
                 <h:commandButton value="Prev" action="#{userSession.prev}" rendered="#{userSession.prev}"/>
-                <h:inputText value="#{userSession.interval}"/>
+                <h:inputText value="#{userSession.interval}">
+                    <f:validateLongRange minimum="3"/>
+                </h:inputText>
                 <h:commandButton value="Next" action="#{userSession.next}"/>
+                <h:commandButton value="Logout!" action="#{userSession.logout}"/>
             </h:form>
         </fieldset>
     </h:body>
