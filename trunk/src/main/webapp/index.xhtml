@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>JaWeMa - WebMail</title>
+    </h:head>
+    <h:body>
+        <fieldset>
+            <h:form rendered="#{!userSession.loggedIn}">
+                <h:inputText value="#{userSession.username}" /><br/>
+                <h:inputSecret value="#{userSession.password}" /><br/>
+                <h:inputText value="#{userSession.outgoingMailServer}" /><br/>
+                <h:inputText value="#{userSession.incomingMailServer}" /><br/>
+                <h:commandButton value="Login!" action="#{userSession.login}"/>
+            </h:form>
+            <h:outputLabel value="#{userSession.username}"/>
+        </fieldset>
+    </h:body>
+</html>
+
