@@ -28,6 +28,7 @@ public class UserSession implements Serializable {
     private Store store;
     private String folderName;
     private Message[] messages;
+    private Message message;
     private int start;
     private int interval;
 
@@ -37,7 +38,6 @@ public class UserSession implements Serializable {
     }
 
     public String login() {
-        logger.info("");
         if (store == null || !store.isConnected()) {
             Properties props = new Properties();
             props.put("mail.smtp.host", getOutgoingMailServer());
@@ -46,6 +46,7 @@ public class UserSession implements Serializable {
                 javax.mail.Session session = javax.mail.Session.getDefaultInstance(props);
                 store = session.getStore("imaps");
                 store.connect(getIncomingMailServer(), getUsername(), getPassword());
+                logger.info("login sucessful! user=" + getUsername());
             } catch (Exception e) {
                 e.printStackTrace();
                 return "index";
@@ -54,11 +55,21 @@ public class UserSession implements Serializable {
         return "workspace";
     }
 
+    public void selectMessage(Message message) {
+        this.message = message;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
     public void next() {
+        message = null;
         start += interval;
     }
 
     public void prev() {
+        message = null;
         start -= interval;
         if (start < 1) {
             start = 1;

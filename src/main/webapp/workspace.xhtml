@@ -12,6 +12,12 @@
                 <h:dataTable value="#{userSession.messages}" var="message">
                     <h:column>
                         <f:facet name="header">
+                            <h:outputText value="Number"/>
+                        </f:facet>
+                        <h:outputText value="#{message.messageNumber}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
                             <h:outputText value="From"/>
                         </f:facet>
                         <h:outputText value="#{message.from[0]}"/>
@@ -22,6 +28,9 @@
                         </f:facet>
                         <h:outputText value="#{message.subject}"/>
                     </h:column>
+                    <h:column>
+                        <h:commandButton action="#{userSession.selectMessage(message)}" value="message"/>
+                    </h:column>
                 </h:dataTable>
                 <h:commandButton value="Prev" action="#{userSession.prev}" rendered="#{userSession.prev}"/>
                 <h:inputText value="#{userSession.interval}">
@@ -31,6 +40,11 @@
                 <h:commandButton value="Logout!" action="#{userSession.logout}"/>
             </h:form>
         </fieldset>
+        <h:form>
+            <fieldset>
+                <h:outputText value="#{userSession.message}"/>
+            </fieldset>
+        </h:form>
     </h:body>
 </html>
 
