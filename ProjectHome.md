@@ -1,0 +1,1 @@
+This project offers a java based implementation of a http based web mail application using imap(s).
